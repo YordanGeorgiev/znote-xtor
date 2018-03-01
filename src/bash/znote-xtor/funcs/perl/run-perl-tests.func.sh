@@ -31,7 +31,10 @@ doRunPerlTests(){
    doLog "INFO Unit testing or the AutoLoadable  base module" 
    perl src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/TestAutoLoadable.pl
 	test -z "$sleep_interval" || sleep $sleep_interval
-
+   
+   doLog "INFO Unit testing or the AutoLoadable  base module" 
+   perl src/perl/znote_xtor/t/TestRdrCmdArgs.pl
+	test -z "$sleep_interval" || sleep $sleep_interval
 
 }
 # eof func doRunPerlTests

@@ -77,19 +77,15 @@ local $SIG{__WARN__} = sub {
 };
 
 
-my $module_trace = 0;
-my $md_file      = '';
-my $objInitiator = {};
-our $appConfig    = {};
-our $objLogger = {};
+our $appConfig            = {};
+our $objLogger            = {};
+my $module_trace          = 0;
+my $objInitiator          = {};
 my $objConfigurator       = {};
 my $actions               = q{};
-my $xls_dir               = q{};
-my $xls_file              = q{};
-my $znote_xtor_project = q{};
-my $period                = q{};
-my $tables                = 'daily' ;
-my $rdbms_type            = 'postgre';                 #todo: parametrize to
+my $dir_in                = q{};
+my $dir_out               = q{};
+
 
 #
 # the main shell entry point of the application
@@ -122,39 +118,13 @@ sub doInitialize {
   $objConfigurator = 'ZnoteXtor::App::Utils::Configurator'->new(
       $objInitiator->{'ConfFile'}, \$appConfig);
   $appConfig       = $objConfigurator->getConfHolder()  ;
-  # p($appConfig)  ; 
 
   $objLogger = 'ZnoteXtor::App::Utils::Logger'->new(\$appConfig);
   my $m = "START MAIN";
   $objLogger->doLogInfoMsg($m);
 
-  # get the cmd args
-  GetOptions(
-    'do=s'          => \$actions,
-    'xls_dir=s'     => \$xls_dir,
-    'xls-file=s'    => \$xls_file,
-    'period=s'      => \$period ,
-    'tables=s'      => \$tables ,
-    'rdbms-type=s'  => \$rdbms_type
-  );
 
-  $znote_xtor_project = $ENV{"znote_xtor_project"};
-  $period                = $ENV{"period"} unless $period;
-  $period                = 'daily' unless $period;
-  $appConfig->{'tables'} = $tables ; 
-
-  unless ($znote_xtor_project) {
-    $msg = "set you current project by: \n";
-    $msg
-      .= "doParseCnfEnvVars <<path-to-znote-xtor-project-configuration-file>>";
-    $objLogger->doLogErrorMsg($msg);
-    $objLogger->doLogFatalMsg($msg);
-    return ($ret, $msg);
-  }
-
-  $appConfig->{'znote_xtor_project'} = $znote_xtor_project;
-  $appConfig->{'xls_dir'}     = $xls_dir;
-  $appConfig->{'xls_file'}     = $xls_file;
+  p($appConfig)  ; 
 
   $ret = 0;
   return ($ret, $msg);
