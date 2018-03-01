@@ -1,0 +1,13 @@
+# exclude all the zip files
+**/*.zip
+**/*.log
+**/*.tdy
+dat/xls/run/*.xlsx
+dat/tests/t*.txt
+dat/znote-xtor/**
+src/bash/znote-xtor/tmp/**
+src/perl/issue_tracker/script/hypnotoad.pid
+src/react/conf-srch/node_modules/**
+**/~$*.xlsx
+**/.DS_Store
+dat/mix/issues/2018/2018-02/2018-02-03/**

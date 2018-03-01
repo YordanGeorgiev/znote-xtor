@@ -1,0 +1,35 @@
+# doc/txt/znote-xtor/test/json-to-txt.test.txt
+
+	doTestJsonToTxt
+	
+	# Purpose:
+	# ------------------------------------------------------
+	to test the execution of the json-to-txt action
+
+	# Prequisites
+	# ------------------------------------------------------
+	same as the action preq
+
+	# Installation
+	# ------------------------------------------------------
+	same as the action's one
+
+	# Interdependancies
+	# ------------------------------------------------------
+	same as the action's one
+
+	# Usage:
+	# ------------------------------------------------------
+   echo json-to-txt > src/bash/znote-xtor/tests/run-znote-xtor-tests.lst
+   bash src/bash/znote-xtor/test-znote-xtor.sh 	
+
+	# Developent
+	# ------------------------------------------------------
+	-- todo: check the return codes
+
+	# Caveats:
+	# ------------------------------------------------------
+	-- none known so far 
+
+
+# eof file: doc/txt/znote-xtor/test/json-to-txt.test.txt

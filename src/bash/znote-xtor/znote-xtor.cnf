@@ -1,0 +1,13 @@
+#file: /opt/csitea/znote-xtor/znote-xtor.0.0.7.dev.ysg/src/bash/znote-xtor/znote-xtor.cnf 
+[MainSection]
+
+#use simple var_name=var_value syntax 
+
+#the name of this application 
+run_unit=znote-xtor
+
+#the name of this application's db
+postgres_db_name=dev_znote-xtor
+
+
+#eof file: /opt/csitea/znote-xtor/znote-xtor.0.0.7.dev.ysg/src/bash/znote-xtor/znote-xtor.cnf

@@ -1,0 +1,38 @@
+# doc/txt/znote-xtor/spec/json-to-txt.spec.txt
+
+	doSpecJsonToTxt
+	
+	# Purpose:
+	# ------------------------------------------------------
+	the main action wrapper for the perl call to transform 
+   the json exported zeppelin notes into *.scala code files
+
+	# Prequisites
+	# ------------------------------------------------------
+	bash , perl , aws cli ( optional ) 
+
+	# Installation
+	# ------------------------------------------------------
+   bash src/bash/znote-xtor/bootstrap-znote-xtor.sh
+	perl src/perl/znote_xtor/script/znote_xtor_preq_checker.pl
+
+	# Interdependancies
+	# ------------------------------------------------------
+	perl src/perl/znote_xtor/script/znote_xtor_preq_checker.pl
+
+	# Usage:
+	# ------------------------------------------------------
+   bash src/bash/znote-xtor/znote-xtor.sh -a json-to-txt	
+
+	# Developent
+	# ------------------------------------------------------
+	-- todo: the specs ( this file ) 
+   -- todo: create the test action func
+   -- todo: define the actual perl cmd call
+
+	# Caveats:
+	# ------------------------------------------------------
+	-- none , known so far 
+
+
+# eof file: doc/txt/znote-xtor/spec/json-to-txt.spec.txt

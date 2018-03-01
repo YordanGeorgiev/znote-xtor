@@ -1,0 +1,107 @@
+# file: cnf/znote-xtor.host-name.cnf
+[MainSection]
+
+# multiple projects support
+znote_xtor_project = znote-xtor
+
+# OBS ! dev , tst , prd product instances to own db !
+postgres_db_name   = dev_znote_xtor
+
+# where the scripts to run are situated
+pgsql_scripts_dir = /opt/csitea/znote-xtor/znote-xtor.0.3.0.dev.ysg/src/sql/pgsql/dev_znote_xtor
+
+# where are stored the txt issues files
+mix_data_dir = /opt/csitea/znote-xtor/znote-xtor.0.3.0.dev.ysg/dat/mix/issues
+
+# The logging directory 
+LogDir = %ProductInstanceDir%/dat/log
+
+# the default Log file
+LogFile =         %LogDir%/%ProductName%.log
+
+# the default chars separating the time from the txt
+LogTimeToTextSeparator = ###
+
+# whether or not to log to a file
+LogToFile =          1
+
+# the time format of the logging 
+TimeFormat =         YYYY.MM.DD hh:mm:ss
+
+# the time format of the logging 
+DbType 	=         postgres
+
+# the log file
+LogFile=%LogDir%/%ProductName%.%YYYY%.%MM%.%DD%.log
+
+# the host on which the mariadb is running 
+db_host = host-name
+
+# the pgsql port
+db_port = 13306
+
+# the mariadb user name
+postgres_db_user = ysg
+
+# Whether or not to print messages to STDOUT and / or STDERR
+PrintConsoleMsgs =               1
+
+# Whether or not to pring INFO messages
+PrintInfoMsgs =                  1                             
+
+# Whether or not to pring WARNING messages
+PrintWarningMsgs =               1                             
+
+# Whether or not to pring ERROR messages
+PrintErrorMsgs =                 1                             
+
+# Whether or not to pring DEBUG messages
+PrintDebugMsgs =                 1
+
+# Whether or not to pring TRACE messages
+PrintTraceMsgs =                 1 
+
+# the id from the url of the google spread sheet
+google_spread_sheet_id = 1p4YwuSB3GtQ0i5ginn4Vc95t09w1WNWJra2yUH1aL0Y
+
+Emails=yordan.georgiev@gmail.com
+# changed the propmpt
+PS1="$znote_xtor_project \u@\h [\d \t] [\w] $ \n\n "
+
+# v0.3.0
+# on which host the mysql is running
+mysql_host=host-name
+ 
+# on which port the mysql is listening 
+mysql_port=13306
+
+# the name of the mysql db 
+mysql_db_name = dev_znote_xtor
+
+# the name of the mysql user 
+mysql_user = usrisgpuben
+
+# the pw of the mysql user
+mysql_user_pw = secret
+
+
+# where are the mysql scripts situated
+mysql_scripts_dir = /opt/csitea/znote-xtor/znote-xtor.0.3.0.dev.ysg/src/sql/mysql/dev_znote_xtor
+
+# the web host where the isg-pub instance residues 
+web_host=host-name
+
+# the number of the web port 
+web_port=5001
+
+# the mysql db data containing load xls
+# after 
+# load_xls=/opt/csitea/znote-xtor/znote-xtor.0.3.0.dev.ysg/doc/xls/znote-xtor-en.xlsx
+load_xls=/vagrant/var/csitea/znote-xtor/znote-xtor.1.0.0.prd.ysg/znote-xtor-en.xlsx
+
+PS1='znote-xtor-dev \u@\h [\d \t] [\w] $ \n\n '
+
+# the last entry is always ignored - this is a bug in the cnf parser 
+foo=bar
+
+# eof file: cnf/znote-xtor.dev.host-name.cnf

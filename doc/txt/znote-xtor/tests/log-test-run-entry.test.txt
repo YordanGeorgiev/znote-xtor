@@ -1,0 +1,37 @@
+# doc/txt/znote-xtor/log-test-run-entry/log-test-run-entry.test.txt
+
+	doTestLogTestRunEntry
+	
+	# Purpose:
+	# ------------------------------------------------------
+   to test the doLogTestEntry function
+
+	# Prequisites
+	# ------------------------------------------------------
+   znote-xtor core funcs , perl , bash
+
+	# Installation and configurtion
+	# ------------------------------------------------------
+   uncomment thhe log-test-run-entry action line from the 
+   src/bash/znote-xtor/tests/run-znote-xtor-tests.lst
+	
+   # Interdependancies
+	# ------------------------------------------------------
+
+	# Usage:
+	# ------------------------------------------------------
+   uncomment the log-test-run-entry line in the file:
+   src/bash/znote-xtor/tests/run-znote-xtor-tests.lst
+   src/bash/znote-xtor/test-znote-xtor.sh
+
+	# Developent
+	# ------------------------------------------------------
+   - todo   more failing tests ...    	
+
+	# Caveats:
+	# ------------------------------------------------------
+	none yet ...
+
+
+
+# eof file: doc/txt/znote-xtor/log-test-run-entry/log-test-run-entry.test.txt
