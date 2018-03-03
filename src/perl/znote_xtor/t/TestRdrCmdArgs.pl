@@ -25,7 +25,7 @@ my  $objConfigurator
 $appConfig                 = $objConfigurator->getConfHolder()  ;
 
 my $objLogger					= 'ZnoteXtor::App::Utils::Logger'->new(\$appConfig);
-my $objModel             = 'ZnoteXtor::App::Mdl::Model'->new ( \$appConfig ) ; 
+my $objModel               = 'ZnoteXtor::App::Mdl::Model'->new ( \$appConfig ) ; 
 my $objRdrCmdArgs 			= 'ZnoteXtor::App::IO::In::RdrCmdArgs'->new(\$appConfig , \$objModel ) ; 
 push @ARGV , '--do run' ; 
 push @ARGV , '--in-dir in' ; 

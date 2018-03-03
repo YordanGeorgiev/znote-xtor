@@ -2,7 +2,7 @@ use strict ; use warnings ;
 
 use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
-use Test::More tests => 3 ; 
+use Test::More tests => 1 ; 
 
 use Getopt::Long;
 use ZnoteXtor::App::Utils::Initiator ; 
@@ -23,18 +23,13 @@ my  $objConfigurator
 
 $appConfig                 = $objConfigurator->getConfHolder()  ;
 
-my $actions               	= 'db-to-xls' ; 
+my $actions               		= 'json-to-txt' ; 
+my $objModel               = 'ZnoteXtor::App::Mdl::Model'->new ( \$appConfig ) ; 
 my $objLogger					= 'ZnoteXtor::App::Utils::Logger'->new(\$appConfig);
-my $objDispatcher 			= 'ZnoteXtor::App::Ctrl::Dispatcher'->new(\$appConfig , 1);
-my $functions              = $objDispatcher->doRun($actions);
-ok ( $functions eq 'doDbToXls' , "test-01 ensure the db-to-xls action calls the doDbToXls func" );
+$objModel->set('ctrl.actions' , $actions ) ; 
+my $objDispatcher 			= 'ZnoteXtor::App::Ctrl::Dispatcher'->new(\$appConfig , \$objModel , 1 ) ; 
+my $functions              = $objDispatcher->doRun();
+ok ( $functions eq 'doJsonToTxt' , "test-01 ensure the json-to-txt action calls the doJsonToTxt func" );
 
-$actions               		= 'xls-to-db' ; 
-$functions              	= $objDispatcher->doRun($actions);
-ok ( $functions eq 'doXlsToDb' , "test-02 ensure the db-to-xls action calls the doDbToXls func" );
- 
-$actions               		= 'txt-to-db' ; 
-$functions              	= $objDispatcher->doRun($actions);
-ok ( $functions eq 'doTxtToDb' , "test-03 ensure the txt-to-db action calls the doTxtToDb func" );
 
 # FILE-UUID edc52a88-7521-4685-b010-d031e33aab07
