@@ -1,6 +1,6 @@
 # src/bash/znote-xtor/funcs/log-test-run-entry.test.sh
 
-# v1.0.9
+# 
 # ---------------------------------------------------------
 # todo: add doTestLogTestRunEntry comments ...
 # ---------------------------------------------------------

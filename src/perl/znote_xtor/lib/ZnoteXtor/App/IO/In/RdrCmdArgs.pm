@@ -10,23 +10,27 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
 	use AutoLoader;
    use Carp ;
    use Data::Printer ; 
+   use Getopt::Long;
 
-   use base qw(ZnoteXtor::App::Utils::OO::SetGetable);
+   use parent 'ZnoteXtor::App::Utils::OO::SetGetable' ; 
    use parent 'ZnoteXtor::App::Utils::OO::AutoLoadable' ;
+
    use ZnoteXtor::App::Utils::Logger ; 
+   use ZnoteXtor::App::Mdl::Model ; 
 
 	our $module_trace                = 0 ; 
    our $module_test_run             = 0 ; 
 	our $appConfig						   = {} ; 
 	our $objLogger						   = {} ; 
+	our $objModel                    = {} ; 
 
    # 
    # read the cmd args and set them into the global app config 
    sub doRead {
       my $self = shift ;   
-  
+
       my $actions = q{} ; 
-      my $dir_in = q{} ; 
+      my $dir_in  = q{} ; 
       my $dir_out = q{} ; 
 
      # get the cmd args
@@ -36,9 +40,9 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
        'out-dir=s'     => \$dir_out,
      );
       
-     $appConfig->{'dir_in'}     = $dir_in;
-     $appConfig->{'dir_out'}     = $dir_out;
-     $appConfig->{'actions'}     = $actions ; 
+     $objModel->set('in.dir' , $dir_in ) ; 
+     $objModel->set('out.dir' , $dir_out ) ; 
+     $objModel->set('ctrl.actions' , $actions ) ; 
    }
    # eof sub doRead
    #
@@ -92,10 +96,12 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
 
 		my $class      = shift;    # Class name is in the first parameter
 		$appConfig     = ${ shift @_ } || { 'foo' => 'bar' ,} ; 
+		$objModel     = ${ shift @_ } || croak "objModel not passed !!!" ; 
       $module_test_run = shift if @_ ; 
 		my $self = {};        # Anonymous hash reference holds instance attributes
 		bless( $self, $class );    # Say: $self is a $class
       $self = $self->doInitialize() ; 
+      $self->doRead() ; 
 		return $self;
 	}  
 	#eof const

@@ -13,10 +13,13 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
 
    use base qw(ZnoteXtor::App::Utils::OO::SetGetable);
    use ZnoteXtor::App::Utils::Logger ; 
+   use ZnoteXtor::App::Mdl::Model ; 
+   use ZnoteXtor::App::Ctrl::CtrlJsonToTxt ; 
 
 	our $module_trace                = 0 ; 
    our $module_test_run             = 0 ; 
 	our $appConfig						   = {} ; 
+	our $objModel                    = {} ; 
 	our $RunDir 						   = '' ; 
 	our $ProductBaseDir 				   = '' ; 
 	our $ProductDir 					   = '' ; 
@@ -50,55 +53,15 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
 	START SUBS 
 =cut
 
-   sub doTxtToDb {
+   sub doJsonToTxt {
+
       my $self = shift ; 
       use strict 'refs'; 
+      my $objCtrlJsonToTxt = 
+         'ZnoteXtor::App::Ctrl::CtrlJsonToTxt'->new ( \$appConfig , \$objModel) ; 
+      my ( $ret , $msg ) = $objCtrlJsonToTxt->doRun( ) ; 
 
-      my $objCtrlTxtToDb = 
-         'ZnoteXtor::App::Ctrl::CtrlTxtToDb'->new ( \$appConfig ) ; 
-      my ( $ret , $msg ) = $objCtrlTxtToDb->doLoad () ; 
-      return ( $ret , $msg ) unless $ret == 0 ; 
-   }
-
-   sub doDbToXls {
-      my $self = shift ; 
-      use strict 'refs'; 
-
-      my $objCtrlDbToXls = 
-         'ZnoteXtor::App::Ctrl::CtrlDbToXls'->new ( \$appConfig ) ; 
-      my ( $ret , $msg ) = $objCtrlDbToXls->doReadAndLoad ( ); 
-      return ( $ret , $msg ) unless $ret == 0 ; 
-
-   }
-   
-   sub doDbToGsheet {
-      my $self = shift ; 
-      use strict 'refs'; 
-      my $objCtrlDbToGsheet = 
-         'ZnoteXtor::App::Ctrl::CtrlDbToGoogleSheet'->new ( \$appConfig ) ; 
-      my ( $ret , $msg ) = $objCtrlDbToGsheet->doReadAndLoad ( ); 
-      return ( $ret , $msg ) unless $ret == 0 ; 
-
-   }
-
-   sub doXlsToDb {
-      my $self = shift ; 
-      use strict 'refs'; 
-
-      my $objCtrlXlsToDb = 
-         'ZnoteXtor::App::Ctrl::CtrlXlsToDb'->new ( \$appConfig ) ; 
-      my ( $ret , $msg ) = $objCtrlXlsToDb->doReadAndLoad ( ) ; 
       return ( $ret , $msg ) ; 
-   }
-   
-   sub doDbToTxt {
-
-      my $self = shift ; 
-      use strict 'refs'; 
-      my $objCtrlDbToTxt = 
-         'ZnoteXtor::App::Ctrl::CtrlDbToTxt'->new ( \$appConfig ) ; 
-      my ( $ret , $msg ) = $objCtrlDbToTxt->doReadAndWrite ( ) ; 
-      return ( $ret , $msg ) unless $ret == 0 ; 
 
    }
 
@@ -106,7 +69,7 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
    sub doRun {
 
       my $self          = shift ; 
-      my $actions       = shift ; 
+      my $actions       = $objModel->get('ctrl.actions') ; 
 
       my @actions = split /,/ , $actions ; 
       my $msg = 'error in Dispatcher' ; 
@@ -128,6 +91,7 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
          $objLogger->doLogInfoMsg ( "module_test_run: " . $module_test_run ) ; 
          return $func if ( $module_test_run == 1 ) ; 
          ($ret , $msg ) = $self->$func ; 
+            return ( $ret , $msg ) if $ret != 0 ; 
 
          $msg = "STOP  RUN the $action action " ; 
          $objLogger->doLogInfoMsg ( $msg ) ; 
@@ -145,7 +109,6 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
       return ( $ret , $msg ) ; 
    }
    # eof sub doRun
-
 	
 
 =head1 WIP
@@ -172,6 +135,7 @@ package ZnoteXtor::App::Ctrl::Dispatcher ;
 
 		my $class      = shift;    # Class name is in the first parameter
 		$appConfig     = ${ shift @_ } || { 'foo' => 'bar' ,} ; 
+		$objModel      = ${ shift @_ } || croak "objModel not passed !!!" ; 
       $module_test_run = shift if @_ ; 
 		my $self = {};        # Anonymous hash reference holds instance attributes
 		bless( $self, $class );    # Say: $self is a $class

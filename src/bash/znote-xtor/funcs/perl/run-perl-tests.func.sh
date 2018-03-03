@@ -33,7 +33,7 @@ doRunPerlTests(){
 	test -z "$sleep_interval" || sleep $sleep_interval
    
    doLog "INFO Unit testing or the AutoLoadable  base module" 
-   perl src/perl/znote_xtor/t/TestRdrCmdArgs.pl
+   perl src/perl/znote_xtor/t/TestRdrCmdArgs.pl --do run --in-dir in --out-dir out
 	test -z "$sleep_interval" || sleep $sleep_interval
 
 }

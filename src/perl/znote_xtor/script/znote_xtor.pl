@@ -38,8 +38,6 @@ BEGIN {
   $my_inc_path =~ m/^(.*)(\\|\/)(.*?)(\\|\/)(.*)/;
   $my_inc_path = $1;
 
-  # debug ok print "\$my_inc_path $my_inc_path \n" ;
-
   unless (grep { $_ eq "$my_inc_path" } @INC) {
     push(@INC, "$my_inc_path");
     $ENV{'PERL5LIB'} .= "$my_inc_path";
@@ -60,6 +58,8 @@ use ZnoteXtor::App::Utils::Configurator;
 use ZnoteXtor::App::Utils::Logger;
 use ZnoteXtor::App::Utils::Timer;
 use ZnoteXtor::App::Ctrl::Dispatcher;
+use ZnoteXtor::App::IO::In::RdrCmdArgs ; 
+
 
 # give a full stack dump on any untrapped exceptions
 local $SIG{__DIE__} = sub {
@@ -72,19 +72,20 @@ local $SIG{__DIE__} = sub {
 #   case just generate a clucking stackdump instead
 local $SIG{__WARN__} = sub {
   $0 = basename($0);    # shorter messages
-  if   ($^S) { cluck "\n\n FATAL Trapped warning: @_" }
-  else       { confess "\n\n FATAL Deadly warning: @_" }
+  if   ($^S) { cluck "\n\n WARN Trapped warning: @_" }
+  else       { confess "\n\n WARN Deadly warning: @_" }
 };
 
 
-our $appConfig            = {};
-our $objLogger            = {};
-my $module_trace          = 0;
-my $objInitiator          = {};
-my $objConfigurator       = {};
-my $actions               = q{};
-my $dir_in                = q{};
-my $dir_out               = q{};
+our $appConfig            = {} ;
+our $objLogger            = {} ;
+our $objModel             = {} ;
+my $module_trace          = 0 ;
+my $objInitiator          = {} ;
+my $objConfigurator       = {} ;
+my $actions               = q{} ;
+my $dir_in                = q{} ;
+my $dir_out               = q{} ;
 
 
 #
@@ -99,8 +100,9 @@ sub main {
   ($ret, $msg) = doInitialize();
   doExit($ret, $msg) unless ($ret == 0);
 
-  my $objDispatcher = 'ZnoteXtor::App::Ctrl::Dispatcher'->new(\$appConfig );
+  my $objDispatcher = 'ZnoteXtor::App::Ctrl::Dispatcher'->new(\$appConfig , \$objModel );
   ($ret, $msg) = $objDispatcher->doRun($actions);
+
 
   doExit($ret, $msg);
 
@@ -119,6 +121,8 @@ sub doInitialize {
       $objInitiator->{'ConfFile'}, \$appConfig);
   $appConfig       = $objConfigurator->getConfHolder()  ;
 
+  $objModel        = 'ZnoteXtor::App::Mdl::Model'->new ( \$appConfig ) ; 
+  my $objRdrCmdArgs 			= 'ZnoteXtor::App::IO::In::RdrCmdArgs'->new(\$appConfig , \$objModel ) ; 
   $objLogger = 'ZnoteXtor::App::Utils::Logger'->new(\$appConfig);
   my $m = "START MAIN";
   $objLogger->doLogInfoMsg($m);

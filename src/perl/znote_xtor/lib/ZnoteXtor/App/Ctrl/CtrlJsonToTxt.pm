@@ -17,6 +17,7 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
 	
 	our $module_trace                = 0 ; 
 	our $appConfig						   = {} ; 
+	our $objModel                    = {} ; 
 	our $RunDir 						   = '' ; 
 	our $ProductBaseDir 				   = '' ; 
 	our $ProductDir 					   = '' ; 
@@ -35,7 +36,7 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
 =head1 SYNOPSIS
       my $objCtrlJsonToTxt = 
          'ZnoteXtor::App::Ctrl::CtrlJsonToTxt'->new ( \$appConfig ) ; 
-      ( $ret , $msg ) = $objCtrlJsonToTxt->doLoadIssuesFileToDb ( $issues_file ) ; 
+      ( $ret , $msg ) = $objCtrlJsonToTxt->doRun ( $issues_file ) ; 
 =cut 
 
 =head1 EXPORT
@@ -57,6 +58,16 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
    # and insert the hsr into a db
 	# -----------------------------------------------------------------------------
    sub doRun {
+      my $self = shift  ;
+      my $ret  = 1 ; 
+      my $msg  = 'unknown error in CtrlJsonToTxt component !!!' ; 
+
+      $objLogger->doLogDebugMsg ( "RUN START " ) ; 
+      $objLogger->doLogDebugMsg ( "RUN STOP " ) ; 
+      
+      $msg = "OK for CtrlJsonToTxt component run" ; 
+      $ret = 0 ; 
+      return ( $ret , $msg ) ; 
    }
 
 
@@ -83,7 +94,8 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
 	sub new {
 
 		my $class      = shift;    # Class name is in the first parameter
-		$appConfig     = ${ shift @_ } || { 'foo' => 'bar' ,} ; 
+		$appConfig     = ${ shift @_ } || croak 'appConfig not passed !!!' ; 
+		$objModel      = ${ shift @_ } || croak 'objModel not passed !!!' ; 
 
 		my $self = {};        # Anonymous hash reference holds instance attributes
 		bless( $self, $class );    # Say: $self is a $class
@@ -104,8 +116,6 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
       );
 
 	   $objLogger 			= 'ZnoteXtor::App::Utils::Logger'->new( \$appConfig ) ;
-
-
       return $self ; 
 	}	
 	#eof sub doInitialize
