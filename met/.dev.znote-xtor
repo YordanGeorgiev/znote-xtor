@@ -3,7 +3,6 @@
 src/perl/znote_xtor/lib/ZnoteXtor/App/Cnvr
 src/perl/znote_xtor/t
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/
-src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/IO/TestFileHandler.pl
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/IO/In/TestRdrDirs.pl
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/IO/In/TestRdrFiles.pl
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/IO/Out

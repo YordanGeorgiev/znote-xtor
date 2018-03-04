@@ -46,9 +46,6 @@ sub doListAllInstalledModules {
 sub doCheckUbuntuOSPackages {
 
   my @ospackages = qw(
-   libxml-atom-perl
-   postgresql-9.6
-   libdbd-pgsql
   );
 
   for (@ospackages) {
@@ -68,7 +65,7 @@ sub doCheckRequiredModules {
     File::Copy
     File::Find
     File::Path
-    Term::Prompt
+    JSON
   );
 
   for (@modules) {

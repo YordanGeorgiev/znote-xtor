@@ -42,8 +42,7 @@ package ZnoteXtor::App::IO::Out::WtrFiles ;
 
 		# try to create the dir path of the file path if it does not exist
 		unless (-d $out_file_dir) {
-		  $self->doMkDir( "$out_file_dir" );
-		  carp "should create the file dir $out_file_dir" ; 
+		  $self->doMkDir( "$out_file_dir" ) || carp "should create the file dir $out_file_dir" ; 
 		}
 
 

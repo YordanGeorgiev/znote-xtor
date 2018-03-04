@@ -39,13 +39,17 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
        'in-dir=s'      => \$dir_in,
        'out-dir=s'     => \$dir_out,
      );
-      
+
+     # set the default action 
+     $actions = 'json-to-txt' unless $actions ; 
+     $dir_in = $appConfig->{ 'ProductInstanceDir' } . '/dat/in' unless $dir_in ; 
+     $dir_out = $appConfig->{ 'ProductInstanceDir' } . '/dat/out' unless $dir_out ; 
+
      $objModel->set('in.dir' , $dir_in ) ; 
      $objModel->set('out.dir' , $dir_out ) ; 
      $objModel->set('ctrl.actions' , $actions ) ; 
    }
    # eof sub doRead
-   #
 
 
 
