@@ -187,9 +187,6 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 
 
 
-	#
-	# -----------------------------------------------------------------------------
-	# -----------------------------------------------------------------------------
 	sub doReadFileReturnArrayRef {
 		my $self = shift ; 
 		my $path_to_file = shift ; 
@@ -205,20 +202,57 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 	}
 	#eof sub doReadFileReturnArrayRef
 
+   
+	#
+	# -----------------------------------------------------------------------------
+	# read dir recursively , return only the files matching the regex for the 
+	# file extension , example - get all the .pl or .pm files:
+	# my $arrRefTxtFiles = $objFH->doReadDirGetFilesByExtension ( $dir, 'pl|pm')
+	# -----------------------------------------------------------------------------
+   sub doReadDirGetFilesByExtension {
+		my $self = shift ;	# remove this if you are not calling OO style 
+		my $dir  = shift ; 
+		my $ext  = shift ; 
+		
+		my @arr_files = () ; 
+		# File::find accepts ONLY single function call, without params, hence :
+		find(wrapp_wanted_call(\&filter_file_with_ext , $ext , \@arr_files ) , $dir );  
+		return \@arr_files ; 
+   }
 
+	#
+	# -----------------------------------------------------------------------------
+	# return only the file with the passed file extention regex
+	# -----------------------------------------------------------------------------
+	sub filter_file_with_ext {
+		my $ext 	= shift ; 
+		my $arr_ref_files = shift ; 
 
+		my $F = $File::Find::name;
 
-	# call by : $objFileHandler = new FileHandler ( ) ; 
-	# source:http://www.netalive.org/tinkering/serious-perl/#oop_constructors¨
+		# fill into the arr behind the array ref any file matching the ext regex
+		push @$arr_ref_files , $F if ( -f $F and $F =~ /^.*\.$ext$/ ) ; 
+	}
+
+	#
+	# -----------------------------------------------------------------------------
+	# the wrapper around the wanted func
+	# -----------------------------------------------------------------------------
+	sub wrapp_wanted_call {
+		my ($function, $param1 , $param2) = @_;
+
+		sub {
+		  $function->($param1 , $param2);
+		}
+	}
+
+   # 
+	# src: http://www.netalive.org/tinkering/serious-perl/#oop_constructors¨
 	# -----------------------------------------------------------------------------
 	sub new {
-
 		 my $class = shift;    # Class name is in the first parameter
-
 		 my $self = {};        # Anonymous hash reference holds instance attributes
-
 		 bless($self, $class); # Say: $self is a $class
-
 		 return $self;
 	}   
 	#eof const

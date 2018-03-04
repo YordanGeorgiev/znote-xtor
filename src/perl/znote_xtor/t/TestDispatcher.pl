@@ -2,7 +2,7 @@ use strict ; use warnings ;
 
 use FindBin;
 BEGIN { unshift @INC, "$FindBin::Bin/../lib" }
-use Test::More tests => 1 ; 
+use Test::More tests => 3 ; 
 
 use Data::Printer ; 
 use ZnoteXtor::App::Utils::Initiator ; 
