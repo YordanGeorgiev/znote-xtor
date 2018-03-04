@@ -13,7 +13,7 @@ doJsonToTxt(){
 	sleep "$sleep_interval"
 	# Action !!!
    perl src/perl/znote_xtor/script/znote_xtor.pl \
-      --do json-to-txt --in-dir dat/in --out-dir dat/out
+      --do json-to-txt --in-dir /tmp/zeppelin-542/ --out-dir /tmp/zeppelin-542-out/
   export exit_code=$? ;  doExit "$msg" ;
 
 	doLog "DEBUG STOP  doJsonToTxt"

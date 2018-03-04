@@ -11,6 +11,7 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
    use Carp ;
    use Data::Printer ; 
    use Getopt::Long;
+   use JSON ; 
 
    use parent 'ZnoteXtor::App::Utils::OO::SetGetable' ; 
    use parent 'ZnoteXtor::App::Utils::OO::AutoLoadable' ;
@@ -19,24 +20,64 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
    use ZnoteXtor::App::Mdl::Model ; 
 
 	our $module_trace                = 0 ; 
-   our $module_test_run             = 0 ; 
 	our $appConfig						   = {} ; 
 	our $objLogger						   = {} ; 
-	our $objModel                    = {} ; 
 
    # 
    # read the cmd args and set them into the global app config 
    sub doConvert {
       my $self = shift ;   
       my $str_json = shift ; 
-
+      
+      my @arr_codes = () ; 
       my $ret = 1 ; 
       my $msg = 'error, while converting the str_json ' ; 
 
       my $out_file_name = 'todo' ; 
       my $str_src = 'todo' ; 
 
-      return ( $ret , $msg , $out_file_name , $str_src ) ; 
+      my $json_dat = JSON->new->utf8->decode($str_json);
+      foreach my $paragraph ( $json_dat->{ 'paragraphs' } ) {
+         # debug print "START paragraph \n" ; 
+         # debug p $paragraph ; 
+         # debug print "STOP  paragraph \n" ; 
+         my $i = 0 ; 
+         foreach my $paragraph_unit ( @$paragraph ) {
+            my $hr_file = {} ; 
+            # print "START paragraph_unit \n" ; 
+            # p $paragraph_unit ; 
+            # print "STOP  paragraph_unit  \n" ; 
+            # print "START paragraph title \n" ; 
+            # debug p $paragraph_unit->{'title' }  ;  
+            my $file_name = $paragraph_unit->{'title' } || 'untitled' ; 
+            my $src_code = $paragraph_unit->{'text' } || 'empty' ; 
+            $src_code =~ s/\\n/\n/g ; 
+            $hr_file->{ 'src_code' } = $src_code ; 
+
+            $file_name = lc ( $file_name ) ; 
+            $file_name =~ s/\s+/_/g ; 
+            $file_name =~ s/\-+/-/g ; 
+            $file_name =~ s/\.+/./g ; 
+            $file_name =~ s/[\.\.+]/./g ; 
+            $file_name =~ s/[\<\>\*]+//g ; 
+
+            $i++ ;  
+            my $si = $i ; 
+            $si = "0$i" if $i < 10 ; 
+            $hr_file->{ 'file_name' } = "$si" . '.' . $file_name ; 
+            push @arr_codes , $hr_file ; 
+            # print "STOP  paragraph \n" ; 
+            # print "START paragraph text \n" ; 
+            # p $paragraph_unit->{'text'}  ;  
+            # print "STOP  paragraph text \n" ; 
+         }
+
+      }
+
+
+      $ret = 0 ; 
+      $msg = 'convert ok' ; 
+      return ( $ret , $msg , \@arr_codes ) ; 
    }
    # eof sub doRead
 
@@ -87,13 +128,10 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
 	sub new {
 
 		my $class      = shift;    # Class name is in the first parameter
-		$appConfig     = ${ shift @_ } || { 'foo' => 'bar' ,} ; 
-		$objModel     = ${ shift @_ } || croak "objModel not passed !!!" ; 
-      $module_test_run = shift if @_ ; 
+		$appConfig     = ${ shift @_ } || croak 'appConfig not passed !!!' ; 
 		my $self = {};        # Anonymous hash reference holds instance attributes
 		bless( $self, $class );    # Say: $self is a $class
       $self = $self->doInitialize() ; 
-      $self->doRead() ; 
 		return $self;
 	}  
 	#eof const
@@ -121,48 +159,8 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
 	# overrided autoloader prints - a run-time error - perldoc AutoLoader
 	# -----------------------------------------------------------------------------
 =cut
-	sub AUTOLOAD {
-
-		my $self = shift;
-		no strict 'refs';
-		my $name = our $AUTOLOAD;
-		*$AUTOLOAD = sub {
-			my $msg =
-			  "BOOM! BOOM! BOOM! \n RunTime Error !!! \n Undefined Function $name(@_) \n ";
-			croak "$self , $msg $!";
-		};
-		goto &$AUTOLOAD;    # Restart the new routine.
-	}   
-	# eof sub AUTOLOAD
 
 
-	# -----------------------------------------------------------------------------
-	# wrap any logic here on clean up for this class
-	# -----------------------------------------------------------------------------
-	sub RunBeforeExit {
-
-		my $self = shift;
-
-		#debug print "%$self RunBeforeExit ! \n";
-	}
-	#eof sub RunBeforeExit
-
-
-	# -----------------------------------------------------------------------------
-	# called automatically by perl's garbage collector use to know when
-	# -----------------------------------------------------------------------------
-	sub DESTROY {
-		my $self = shift;
-
-		#debug print "the DESTRUCTOR is called  \n" ;
-		$self->RunBeforeExit();
-		return;
-	}   
-	#eof sub DESTROY
-
-
-	# STOP functions
-	# =============================================================================
 
 	
 
