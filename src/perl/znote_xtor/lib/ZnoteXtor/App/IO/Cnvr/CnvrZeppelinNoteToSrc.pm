@@ -1,4 +1,4 @@
-package ZnoteXtor::App::IO::In::RdrCmdArgs ; 
+package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ; 
 
 	use strict; use warnings; use utf8 ; 
 
@@ -26,33 +26,25 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
 
    # 
    # read the cmd args and set them into the global app config 
-   sub doRead {
+   sub doConvert {
       my $self = shift ;   
+      my $str_json = shift ; 
 
-      my $actions = q{} ; 
-      my $dir_in  = q{} ; 
-      my $dir_out = q{} ; 
+      my $ret = 1 ; 
+      my $msg = 'error, while converting the str_json ' ; 
 
-     # get the cmd args
-     GetOptions(
-       'do=s'          => \$actions,
-       'in-dir=s'      => \$dir_in,
-       'out-dir=s'     => \$dir_out,
-     );
-      
-     $objModel->set('in.dir' , $dir_in ) ; 
-     $objModel->set('out.dir' , $dir_out ) ; 
-     $objModel->set('ctrl.actions' , $actions ) ; 
+      my $out_file_name = 'todo' ; 
+      my $str_src = 'todo' ; 
+
+      return ( $ret , $msg , $out_file_name , $str_src ) ; 
    }
    # eof sub doRead
-   #
-
 
 
 =head1 SYNOPSIS
-      my $objRdrCmdArgs = 
-         'ZnoteXtor::App::IO::In::RdrCmdArgs'->new ( \$appConfig ) ; 
-      ( $ret , $msg ) = $objRdrCmdArgs->doRun ( $actions ) ; 
+      my $objCnvrZeppelinNoteToSrc = 
+         'ZnoteXtor::App::IO::In::CnvrZeppelinNoteToSrc'->new ( \$appConfig ) ; 
+      ( $ret , $msg ) = $objCnvrZeppelinNoteToSrc->doRun ( $actions ) ; 
 =cut 
 
 =head1 EXPORT
@@ -66,6 +58,8 @@ package ZnoteXtor::App::IO::In::RdrCmdArgs ;
 	# -----------------------------------------------------------------------------
 	START SUBS 
 =cut
+
+
 
 
 	
