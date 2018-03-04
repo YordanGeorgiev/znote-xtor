@@ -4,10 +4,11 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 	my $VERSION = '1.1.8';
 
 	require Exporter;
-	our @ISA = qw(Exporter  ZnoteXtor::App::Utils::OO::SetGetable);
-	use AutoLoader  ;
-
-	use Carp qw(cluck croak);
+	our @ISA = qw(Exporter ZnoteXtor::App::Utils::OO::SetGetable ZnoteXtor::App::Utils::OO::AutoLoadable) ;
+	our $AUTOLOAD =();
+	use AutoLoader;
+   use Carp ;
+   use Getopt::Long;
 	use File::Path qw(make_path) ;
 	use File::Compare;
 	use IO::File;
@@ -15,12 +16,11 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 	use Fcntl qw( :flock );
 	use File::Copy;
 	use File::Path ; 
-	use Carp ; 
-   
-   use base qw(ZnoteXtor::App::Utils::OO::SetGetable);
 
-	my @EXPORT = qw(doReadFileReturnString AppendToFile);
-	our ($cnfHolder) = ();
+   use parent 'ZnoteXtor::App::Utils::OO::SetGetable' ; 
+   use parent 'ZnoteXtor::App::Utils::OO::AutoLoadable' ;
+
+	my @EXPORT = qw(doReadFileReturnString doPrintToFile);
 
 
 	#
@@ -72,8 +72,8 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
                   unless utf8::valid ( $string ) ; 
             }
             else {
-               open FILE, "$file "
-                 or cluck "failed to open \$file $file : $!" ; 
+               open FILE, "$file" 
+                  or cluck ("failed to open the \$file $file : $!" ) ; 
                $string = <FILE> ; 
             }
             close FILE;
@@ -100,13 +100,13 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 	# -----------------------------------------------------------------------------
 	# Prints the passed string to a file if the file exists it is overwritten
 	# -----------------------------------------------------------------------------
-	sub PrintToFile {
+	sub doPrintToFile {
 
 		my $self             = shift;
 		my $FileOutput       = shift
-		   || cluck("FileHandler::PrintToFile undef \$FileOutput  !!!");
+		   || cluck("FileHandler::doPrintToFile undef \$FileOutput  !!!");
 		my $StringToPrint    = shift
-		   || cluck("FileHandler::PrintToFile undef \$StringToPrint  !!!");
+		   || cluck("FileHandler::doPrintToFile undef \$StringToPrint  !!!");
 		my $mode             = shift 
          || 'utf8' ; 
 
@@ -121,7 +121,7 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 
 		# try to create the dir path of the file path if it does not exist
 		unless (-d $FileDir) {
-		  $self->MkDir( "$FileDir" );
+		  $self->doMkDir( "$FileDir" );
 		  carp "should create the file dir $FileDir" ; 
 		}
 
@@ -149,15 +149,15 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 		#debug $strToReturn .=  $StringToPrint;
 
 	}  
-	#eof sub PrintToFile
+	#eof sub doPrintToFile
 
 
 	#
 	# -----------------------------------------------------------------------------
 	# Create a dir or cluck why it can't
-	# use by if ( $self->MkDir ( $dir_to_create ) ; 
+	# use by if ( $self->doMkDir ( $dir_to_create ) ; 
 	# -----------------------------------------------------------------------------
-	sub MkDir {
+	sub doMkDir {
 
 		my $self        	= shift;
 		my $dir_to_create = shift;
@@ -183,14 +183,14 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 		use warnings 'experimental::smartmatch';
 
 	}    
-	#eof sub
+	#eof sub doMkDir
 
 
 
 	#
 	# -----------------------------------------------------------------------------
 	# -----------------------------------------------------------------------------
-	sub ReadFileReturnArrayRef {
+	sub doReadFileReturnArrayRef {
 		my $self = shift ; 
 		my $path_to_file = shift ; 
 		my $arr_ref = () ; 
@@ -203,68 +203,27 @@ package ZnoteXtor::App::Utils::IO::FileHandler ;
 		return $arr_ref ; 
 
 	}
-	#eof sub ReadFileReturnArrayRef
+	#eof sub doReadFileReturnArrayRef
 
 
 
 
-
-	# call by : $objFileHandler = new FileHandler ( \$cnfHolder  ) ;
+	# call by : $objFileHandler = new FileHandler ( ) ; 
 	# source:http://www.netalive.org/tinkering/serious-perl/#oop_constructors¨
 	# -----------------------------------------------------------------------------
 	sub new {
 
 		 my $class = shift;    # Class name is in the first parameter
-		 $cnfHolder = ${shift @_} if (@_);
 
 		 my $self = {};        # Anonymous hash reference holds instance attributes
 
 		 bless($self, $class); # Say: $self is a $class
-		 $self->Initialize();
 
 		 return $self;
 	}   
 	#eof const
 
 
-
-	#
-	# -----------------------------------------------------------------------------
-	# Initialize the object with the minimum dat it will need to operate
-	# -----------------------------------------------------------------------------
-	sub Initialize {
-
-		 my $self = shift;
-
-		 #debug print "objFileHandler Intialized \n" ;
-	}
-	#eof sub Initialize
-
-
-	sub AUTOLOAD {
-
-		 my $self = shift;
-		 no strict 'refs';
-		 my $name = our $AUTOLOAD;
-		 *$AUTOLOAD = sub {
-			  my $msg =
-				 "BOOM! BOOM! BOOM! \n RunTime Error !!!\nUndefined Function $name(@_)\n";
-			  cluck("$self , $msg");
-		 };
-		 goto &$AUTOLOAD;    # Restart the new routine.
-	}
-	#eof sub AUTOLOAD
-
-	# -----------------------------------------------------------------------------
-	# called automatically by perl , yet nice to have sometimes when ...
-	# -----------------------------------------------------------------------------
-	sub DESTROY {
-
-		 my $self = shift;
-
-		 #debug print "the DESTRUCTOR is called  \n" ;
-		 return;
-	}
 
 
 # STOP OO
@@ -281,12 +240,16 @@ FileHandler
 
 =head1 SYNOPSIS
 
-use FileHandler  ; 
+use ZnoteXtor::App::Utils::IO::FileHandler ; 
+my $objFileHandler= 'ZnoteXtor::App::Utils::IO::FileHandler'->new();
+$objFileHandler = new FileHandler ( ) ; 
+$objFileHandler->doPrintToFile($file,$strFile);
+$objFileHandler->doMkDir($dir);
   
 
 =head1 DESCRIPTION
 
-Provide a simple OO interface handling of files
+Provide a simplistic OO wrapping interface handling of files
 
 =head2 EXPORT
 
@@ -304,21 +267,13 @@ yordan.georgiev@gmail.com
 
 =head1 COPYRIGHT MOR LICENSE
 
-Copyright (C) 2017 Yordan Georgiev
+Copyright (C) 2018 Yordan Georgiev
 
 This library is free software; you can redistribute it and/or modify
 it under the same terms as Perl itself, either Perl version 5.8.1 or,
 at your option, any later version of Perl 5 you may have available.
 
 
--------------------------------------------------------------------------------
---	VersionHistory: 
--------------------------------------------------------------------------------
-
-1.1.8 -- 2017-04-29 21:05:53 -- improved utf8 read with doReadFileReturnString
-1.1.7 -- 2014-09-30 10:45:06 -- ysg -- fiexed bug with use Carp
-1.1.6 -- 2014-06-01 22:30:40 -- ysg -- mkpath -> make_path
-1.1.5 -- 2012-12-26 22:31:30 -- ysg -- re-formattting 
 
 =cut
 

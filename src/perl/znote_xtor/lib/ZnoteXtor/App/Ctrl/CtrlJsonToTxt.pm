@@ -63,6 +63,10 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
       my $msg  = 'unknown error in CtrlJsonToTxt component !!!' ; 
 
       $objLogger->doLogDebugMsg ( "RUN START " ) ; 
+
+      # read the input dir
+      # - foreach input dir read all the json files
+      # --- foreach json file do convert
       $objLogger->doLogDebugMsg ( "RUN STOP " ) ; 
       
       $msg = "OK for CtrlJsonToTxt component run" ; 

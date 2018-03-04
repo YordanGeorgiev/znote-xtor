@@ -1,22 +1,18 @@
 # perl_ignore_file_pattern=.*\.swp$|.*\.log|$.*\.swo|\#---$
 # ---
-src/bash/znote-xtor/tests/json-to-txt.test.sh
-src/bash/znote-xtor/funcs/json-to-txt.func.sh
-src/bash/znote-xtor/specs/json-to-txt.spec.sh
-src/bash/znote-xtor/helps/json-to-txt.help.sh
-doc/txt/znote-xtor/tests/json-to-txt.test.txt
-doc/txt/znote-xtor/specs/json-to-txt.spec.txt
-doc/txt/znote-xtor/helps/json-to-txt.help.txt
-doc/txt/znote-xtor/funcs/json-to-txt.func.txt
-# ---
 src/perl/znote_xtor/lib/ZnoteXtor/App/Cnvr
 src/perl/znote_xtor/t
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/SetGetableChild.pm
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/AutoLoadableChild.pm
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/TestSetGetable.pl
+src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/IO/TestFileHandler.pl
+src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/IO/FileHandler.pm
 src/perl/znote_xtor/t/lib/ZnoteXtor/App/Utils/OO/TestAutoLoadable.pl
 src/perl/znote_xtor/lib/ZnoteXtor/App/IO/In/RdrCmdArgs.pm
+src/perl/znote_xtor/lib/ZnoteXtor/App/Mdl/Model.pm
+src/perl/znote_xtor/lib/ZnoteXtor/App/Ctrl/Dispatcher.pm
+src/perl/znote_xtor/lib/ZnoteXtor/App/Ctrl/CtrlJsonToTxt.pm
 src/perl/znote_xtor/t/TestRdrCmdArgs.pl
 src/perl/znote_xtor/t/TestInitiator.pl
 src/perl/znote_xtor/t/TestConfigurator.pl
@@ -27,6 +23,14 @@ src/perl/znote_xtor/lib/ZnoteXtor/App/Mdl/Model.pm
 # ---
 src/bash/znote-xtor/tests/new-znote-xtor-tests.lst
 # ---
+src/bash/znote-xtor/tests/json-to-txt.test.sh
+src/bash/znote-xtor/funcs/json-to-txt.func.sh
+src/bash/znote-xtor/specs/json-to-txt.spec.sh
+src/bash/znote-xtor/helps/json-to-txt.help.sh
+doc/txt/znote-xtor/tests/json-to-txt.test.txt
+doc/txt/znote-xtor/specs/json-to-txt.spec.txt
+doc/txt/znote-xtor/helps/json-to-txt.help.txt
+doc/txt/znote-xtor/funcs/json-to-txt.func.txt
 # ---
 src/bash/znote-xtor/tests/run-znote-xtor-tests.lst
 cnf/znote-xtor.dev.host-name.cnf
@@ -74,13 +78,9 @@ src/perl/znote_xtor/lib/ZnoteXtor/App
 src/perl/znote_xtor/lib/ZnoteXtor/App/Db
 src/perl/znote_xtor/lib/ZnoteXtor/App/Db/In
 src/perl/znote_xtor/lib/ZnoteXtor/App/Db/Out
-src/perl/znote_xtor/lib/ZnoteXtor/App/Mdl/Model.pm
-src/perl/znote_xtor/lib/ZnoteXtor/App/Ctrl/Dispatcher.pm
-src/perl/znote_xtor/lib/ZnoteXtor/App/Ctrl/CtrlJsonToTxt.pm
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/Initiator.pm
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/IO
-src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/IO/FileHandler.pm
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/OO
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/OO/SetGetable.pm
 src/perl/znote_xtor/lib/ZnoteXtor/App/Utils/OO/AutoLoadable.pm
