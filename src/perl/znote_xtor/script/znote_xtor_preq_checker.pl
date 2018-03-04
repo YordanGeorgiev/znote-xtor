@@ -59,6 +59,10 @@ sub doCheckUbuntuOSPackages {
 sub doCheckRequiredModules {
 
   my @modules = qw(
+    autodie
+    Digest::MD5
+    Path::Tiny
+    File::Copy::Recursive
     ExtUtils::Installed
     Carp::Always
     Data::Printer
@@ -66,6 +70,7 @@ sub doCheckRequiredModules {
     File::Find
     File::Path
     JSON
+    experimental
   );
 
   for (@modules) {

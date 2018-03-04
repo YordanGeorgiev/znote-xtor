@@ -35,7 +35,6 @@ package ZnoteXtor::App::IO::Out::WtrDirs ;
 		my $error_msg 		= '' ; 
 		my $msg 				= '' ; 	
 
-		no warnings 'experimental::smartmatch';
 
 		# if there is !no directory!
 		unless ( -d "$dir_to_create" ) {
@@ -50,7 +49,6 @@ package ZnoteXtor::App::IO::Out::WtrDirs ;
 			return 1;
 		}
 		
-		use warnings 'experimental::smartmatch';
 
 	}    
 	#eof sub doMkDir

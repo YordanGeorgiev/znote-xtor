@@ -29,6 +29,7 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
       my $self = shift ;   
       my $str_json = shift ; 
       
+      
       my @arr_codes = () ; 
       my $ret = 1 ; 
       my $msg = 'error, while converting the str_json ' ; 
@@ -37,6 +38,10 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
       my $str_src = 'todo' ; 
 
       my $json_dat = JSON->new->utf8->decode($str_json);
+         my $note_dir = $json_dat->{'name' } || 'untitled' ; 
+    	$note_dir =~ s/\s+/_/g ; 
+    	$note_dir =~ s/\-+/-/g ; 
+    	$note_dir =~ s/\.+/./g ; 
       foreach my $paragraph ( $json_dat->{ 'paragraphs' } ) {
          # debug print "START paragraph \n" ; 
          # debug p $paragraph ; 
@@ -64,14 +69,13 @@ package ZnoteXtor::App::IO::Cnvr::CnvrZeppelinNoteToSrc ;
             $i++ ;  
             my $si = $i ; 
             $si = "0$i" if $i < 10 ; 
-            $hr_file->{ 'file_name' } = "$si" . '.' . $file_name ; 
+            $hr_file->{ 'file_name' } = "$note_dir" . '/' . "$si" . '.' . $file_name ; 
             push @arr_codes , $hr_file ; 
             # print "STOP  paragraph \n" ; 
             # print "START paragraph text \n" ; 
             # p $paragraph_unit->{'text'}  ;  
             # print "STOP  paragraph text \n" ; 
          }
-
       }
 
 

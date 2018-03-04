@@ -64,7 +64,8 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
          '%spark' => 'scala' , 
          '%sql' => 'sql' ,
          '%sh' => 'sh' ,
-         '%bash' => 'sh'
+         '%bash' => 'sh' ,
+         'txt' => 'txt'
       };
       my $msg  = 'START conversion ' ; 
       $objLogger->doLogDebugMsg ( $msg ) ; 
@@ -95,7 +96,7 @@ package ZnoteXtor::App::Ctrl::CtrlJsonToTxt ;
          $note_dir =~ s/(.*)[\\|\/](.*?)[\\|\/](.*)/$2/g ; 
          foreach my $src_file ( @$arr_ref_files ) {
             my $str_txt_file = $src_file->{ 'src_code' } ; 
-            my $file_type = ( split /\n/, $str_txt_file )[0] ; 
+            my $file_type = ( split /\n/, $str_txt_file )[0] || 'txt' ; 
             #debug print "file_type : $file_type \n" ; 
             my $file_ext = $file_type_exts->{ "$file_type" } || '.txt' ; 
             my $txt_file = "$out_dir" . $note_dir . "/" . $src_file->{ 'file_name' } . '.' . $file_ext ; 

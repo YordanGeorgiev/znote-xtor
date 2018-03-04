@@ -83,7 +83,6 @@ package ZnoteXtor::App::IO::Out::WtrFiles ;
 		my $error_msg 		= '' ; 
 		my $msg 				= '' ; 	
 
-		no warnings 'experimental::smartmatch';
 
 		# if there is !no directory!
 		unless ( -d "$dir_to_create" ) {
@@ -98,7 +97,6 @@ package ZnoteXtor::App::IO::Out::WtrFiles ;
 			return 1;
 		}
 		
-		use warnings 'experimental::smartmatch';
 
 	}    
 	#eof sub doMkDir
